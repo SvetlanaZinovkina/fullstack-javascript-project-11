@@ -1,5 +1,5 @@
 // Вы можете указать, какие плагины Вам нужны
 import './styles.scss';
-import { Tooltip, Toast, Popover } from 'bootstrap';
+import { data } from './utilits.js';
 
-console.log("Hello World!");
+data();
