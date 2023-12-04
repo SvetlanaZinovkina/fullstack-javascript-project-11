@@ -1,81 +1,57 @@
 import onChange from 'on-change';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 import i18n from 'i18next';
 import ru from './locales/ru.js';
+import { isValid } from './checkers.js';
+import renderTextContent from './renders/renderText.js';
+import render from './renders/render.js';
 
-const schema = yup.object().shape({
-  url: yup.string().url().required('this rss already add'),
-});
-const isIncludes = (state) => state.rss.includes(state.url);
+export default () => {
+  const i18nInst = i18n.createInstance();
 
-const render = (state) => {
-  // console.log(state);
-  const divForm = document.querySelector('.form-floating');
-  const divError = document.createElement('div');
-
-  const input = document.getElementById('url-input');
-  if (state.valid === false) {
-    input.classList.add('is-invalid');
-    divError.classList.add('invalid-feedback');
-    divError.textContent = 'oooops';
-    divForm.append(divError);
-  } else {
-    // input.classList.remove('is-invalid');
-    // divForm.remove(divError);
-  }
-};
-
-const isValid = (state) => {
-  schema.isValid({ url: state.url })
-    .then((result) => {
-      state.valid = result;
-      render(state);
-    });
-  // schema.validate({ url: state.url })
-  //   .then((result) => {
-  //     console.log(result);
-  //   });
-};
-const view = (state) => {
-  const form = document.querySelector('form');
-  const input = document.getElementById('url-input');
-
-  input.addEventListener('input', (e) => {
-    state.url = e.target.value;
-  });
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log(isValid(state));
-    isValid(state);
-    if (state.valid === true && !isIncludes(state)) {
-      state.rss.push(state.url);
-    }
-    e.target.reset();
-    input.focus();
-  });
-};
-
-const data = () => {
-  const i18nextInstance = i18n.createInstance();
-
-  i18nextInstance.init({
+  i18nInst.init({
     lng: 'ru',
     debug: false,
-    resources: ru,
+    resources: { ru },
   })
     .then(() => {
-      const state = {
-        valid: true,
-        url: '',
-        rss: [],
-      };
-      const watchedState = onChange(state, (path, value, previousValue) => {
-        render(watchedState);
-      });
-      // console.log(state);
-      view(watchedState);
-    });
-};
+      const elements = {
+        h1: document.querySelector('.display-3'),
+        article: document.querySelector('.lead'),
+        btnForm: document.querySelector('.btn-lg'),
+        exampleText: document.querySelector('.mt-2'),
+        errorText: document.querySelector('.text-danger'),
+        input: document.getElementById('url-input'),
+        form: document.querySelector('form'),
 
-export default data;
+      };
+
+      renderTextContent(elements, i18nInst);
+
+      const state = {
+        status: 'filling',
+        error: '',
+        feeds: [],
+        posts: [],
+      };
+
+      const watchedState = onChange(state, render(state, elements, i18nInst));
+
+      elements.form.addEventListener('submit', async (e) => {
+        const inputValue = e.target[0].value;
+        isValid(watchedState, inputValue)
+          .then((result) => {
+            watchedState.feeds.push(result.url);
+            watchedState.error = '';
+            watchedState.status = 'filling';
+          })
+          .catch((error) => {
+            watchedState.error = error;
+            watchedState.status = 'invalid';
+          });
+        e.preventDefault();
+        elements.input.focus();
+        e.target.reset();
+      });
+    }).catch((error) => console.log(error));
+};
