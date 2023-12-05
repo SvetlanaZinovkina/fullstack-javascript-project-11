@@ -3,7 +3,7 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
     case 'status':
       if (value === 'invalid') {
         elements.input.classList.add('is-invalid');
-        elements.errorText.textContent = i18n.t('warning');
+        elements.errorText.textContent = i18n.t('warnings.errUrl');
         // elements.errorText.classList.remove('text-success');
         // elements.errorText.classList.add('text-danger');
       }

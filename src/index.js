@@ -1,4 +1,4 @@
 import './styles.scss';
-import data from './utilits.js';
+import data from './main.js';
 
 data();
