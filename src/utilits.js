@@ -1,12 +1,12 @@
 import * as yup from 'yup';
 
-export const isValid = (state, inputValue) => {
+export const isValid = (feedsLinks, inputValue) => {
   const schema = yup.object({
     url: yup
       .string()
       .url('invalid url')
-      .notOneOf(state.feeds, 'error')
-      .required(''),
+      .notOneOf(feedsLinks, 'url already yet')
+      .required('error'),
   });
 
   return schema.validate({ url: inputValue });
@@ -14,7 +14,7 @@ export const isValid = (state, inputValue) => {
 
 export const getProxy = (url) => {
   const urlProxy = new URL('/get', 'https://allorigins.hexlet.app');
-  urlProxy.searchParams.set('url', url);
   urlProxy.searchParams.set('disableCache', 'true');
-  return urlProxy.searchParams.toString();
+  urlProxy.searchParams.set('url', url);
+  return urlProxy.toString();
 };
