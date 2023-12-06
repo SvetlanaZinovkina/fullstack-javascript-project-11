@@ -4,12 +4,12 @@ export const isValid = (feedsLinks, inputValue) => {
   const schema = yup.object({
     url: yup
       .string()
-      .url('invalid url')
+      .url()
       .notOneOf(feedsLinks, 'url already yet')
-      .required('error'),
+      .required(),
   });
 
-  return schema.validate({ url: inputValue });
+  return schema.validate({ url: inputValue }, { abortEarly: false });
 };
 
 export const getProxy = (url) => {
@@ -17,4 +17,11 @@ export const getProxy = (url) => {
   urlProxy.searchParams.set('disableCache', 'true');
   urlProxy.searchParams.set('url', url);
   return urlProxy.toString();
+};
+
+export const handleProcessSubmit = (elements) => {
+  const { form, input, button } = elements;
+  // form.reset();
+  input.focus();
+  button.disabled = false;
 };

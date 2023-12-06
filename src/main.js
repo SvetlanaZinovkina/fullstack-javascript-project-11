@@ -31,42 +31,60 @@ export default () => {
       renderTextContent(elements, i18nInst);
 
       const state = {
-        status: 'filling',
-        error: '',
-        feeds: [],
-        posts: [],
+        request: {
+          status: 'waiting',
+          error: '',
+        },
+        form: {
+          status: 'filling',
+          error: '',
+        },
+        data: {
+          feeds: [],
+          posts: [],
+        },
+        uiState: {
+          visitedLinks: [],
+          modal: '',
+        },
       };
+
+      // const state = {
+      //   status: '',
+      //   error: '',
+      //   feeds: [],
+      //   posts: [],
+      // };
 
       const watchedState = onChange(state, render(state, elements, i18nInst));
 
       elements.form.addEventListener('submit', async (e) => {
-        const inputValue = e.target[0].value;
-        const feedsLinks = watchedState.feeds.map((feed) => feed.link);
+        e.preventDefault();
+        const form = new FormData(e.target);
+        const inputValue = form.get('url').trim();
+        const feedsLinks = watchedState.data.feeds.map((feed) => feed.link);
         isValid(feedsLinks, inputValue)
           .then((result) => {
-            console.log(result);
-            watchedState.feeds.push({ id: _.uniqueId(), link: result.url });
-            watchedState.error = '';
-            watchedState.status = 'filling';
-            // console.log(watchedState);
             axios
               .get(getProxy(result.url))
               .then((response) => {
-                console.log(response);
-                parser(response);
+                const parseData = parser(response.data.contents);
+                const { feed, posts } = parseData;
+                watchedState.form.status = 'filling';
+                const id = _.uniqueId();
+                watchedState.data.feeds.push({ ...feed, id, link: result.url });
+                posts.forEach((post) => watchedState.posts.push({ ...post, id }));
               })
               .catch((error) => {
-                console.log(error);
+                watchedState.request.error = error;
               });
           })
           .catch((error) => {
-            // console.log(watchedState);
-            watchedState.error = error;
-            watchedState.status = 'invalid';
+            watchedState.form.error = error.message;
+            watchedState.form.status = 'invalid';
           });
-        e.preventDefault();
+        // elements.form.reset();
         elements.input.focus();
-        e.target.reset();
       });
     }).catch((error) => console.log(error));
 };
