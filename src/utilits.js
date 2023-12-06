@@ -20,8 +20,8 @@ export const getProxy = (url) => {
 };
 
 export const handleProcessSubmit = (elements) => {
-  const { form, input, button } = elements;
-  // form.reset();
+  const { form, input, btnForm } = elements;
+  form.reset();
   input.focus();
-  button.disabled = false;
+  btnForm.disabled = false;
 };

@@ -1,5 +1,6 @@
 export default (state, i18n) => {
   const container = document.querySelector('.feeds');
+  container.innerHTML = '';
   const divCard = document.createElement('div');
   const divCardBody = document.createElement('div');
   const h2 = document.createElement('h2');
