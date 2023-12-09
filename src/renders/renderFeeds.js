@@ -1,3 +1,5 @@
+import { renderTitle } from './renderText.js';
+
 export default (state, i18n) => {
   const container = document.querySelector('.feeds');
   container.innerHTML = '';

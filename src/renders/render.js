@@ -4,15 +4,15 @@ import { handleProcessSubmit } from '../utilits.js';
 
 export default (state, elements, i18n) => (path, value, previousValue) => {
   const {
-    form, input, button, errorText,
+    input, btnForm, errorText,
   } = elements;
   switch (path) {
     case 'form.status':
       if (value === 'invalid') {
         input.classList.add('is-invalid');
         errorText.textContent = i18n.t('warnings.errUrl');
-        // elements.errorText.classList.remove('text-success');
-        // elements.errorText.classList.add('text-danger');
+        elements.errorText.classList.remove('text-success');
+        elements.errorText.classList.add('text-danger');
       }
       if (value === 'filling') {
         input.classList.remove('is-invalid');
@@ -21,12 +21,45 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
       break;
     case 'data.feeds':
       if (value) {
-        renderFeeds(
-          state,
-          i18n.t('feeds'),
-        );
+        renderFeeds(state, i18n.t('feeds'));
         handleProcessSubmit(elements);
       }
+      break;
+    case 'data.posts':
+      if (value.length !== previousValue.length) {
+        renderPosts(state, i18n);
+      }
+      break;
+    case 'request.status':
+      if (value === 'processing') {
+        errorText.textContent = '';
+        input.classList.remove('is-invalid');
+        input.disabled = true;
+        btnForm.disabled = true;
+      }
+      if (value === 'waiting') {
+        input.disabled = false;
+        btnForm.disabled = false;
+      }
+      if (value === 'failed') {
+        input.classList.remove('is-invalid');
+        errorText.classList.remove('text-success');
+        errorText.classList.add('text-danger');
+        input.disabled = false;
+        btnForm.disabled = false;
+        input.focus({ preventScroll: true });
+      }
+      if (value === 'finished') {
+        input.classList.remove('is-invalid');
+        errorText.classList.remove('text-danger');
+        errorText.classList.add('text-success');
+        errorText.textContent = i18n.t('successfully');
+        input.disabled = false;
+        btnForm.disabled = false;
+        input.focus({ preventScroll: true });
+      }
+      break;
+    default:
       break;
   }
 };

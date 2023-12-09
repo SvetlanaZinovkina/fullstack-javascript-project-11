@@ -22,7 +22,7 @@ export default () => {
         article: document.querySelector('.lead'),
         btnForm: document.querySelector('.btn-lg'),
         exampleText: document.querySelector('.mt-2'),
-        errorText: document.querySelector('.text-danger'),
+        errorText: document.querySelector('.feedback'),
         input: document.getElementById('url-input'),
         form: document.querySelector('form'),
 
@@ -49,13 +49,6 @@ export default () => {
         },
       };
 
-      // const state = {
-      //   status: '',
-      //   error: '',
-      //   feeds: [],
-      //   posts: [],
-      // };
-
       const watchedState = onChange(state, render(state, elements, i18nInst));
 
       elements.form.addEventListener('submit', async (e) => {
@@ -73,7 +66,8 @@ export default () => {
                 watchedState.form.status = 'filling';
                 const id = _.uniqueId();
                 watchedState.data.feeds.push({ ...feed, id, link: result.url });
-                posts.forEach((post) => watchedState.posts.push({ ...post, id }));
+                posts.forEach((post) => watchedState.data.posts.push({ ...post, id }));
+                watchedState.request.status = 'finished';
               })
               .catch((error) => {
                 watchedState.request.error = error;
