@@ -49,7 +49,29 @@ export default () => {
         },
       };
 
+      const timeout = 5000;
+
       const watchedState = onChange(state, render(state, elements, i18nInst));
+
+      const getNewPosts = (state) => {
+        const promises = state.data.feeds
+          .map(({ link, id }) => axios
+            .get(getProxy(link))
+            .then((response) => {
+              const { posts } = parser(response.data.contents);
+              const addedPosts = state.data.posts.map((post) => post.link);
+              const newPosts = posts.filter((post) => !addedPosts.includes(post.link));
+              if (newPosts.length > 0) {
+                posts.forEach((post) => watchedState.data.posts.push({ ...post, id }));
+              }
+              return Promise.resolve();
+            }));
+
+        Promise.allSettled(promises)
+          .finally(() => {
+            setTimeout(() => getNewPosts(state), timeout);
+          });
+      };
 
       elements.form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -70,15 +92,23 @@ export default () => {
                 watchedState.request.status = 'finished';
               })
               .catch((error) => {
-                watchedState.request.error = error;
+                if (error.response) {
+                  watchedState.form.status = 'filling';
+                  watchedState.request.error = 'warnings.errNetwork';
+                  watchedState.request.status = 'failed';
+                } else {
+                  watchedState.form.status = 'filling';
+                  watchedState.request.status = 'failed';
+                  watchedState.request.error = 'warnings.errIncludes';
+                }
               });
           })
           .catch((error) => {
             watchedState.form.error = error.message;
             watchedState.form.status = 'invalid';
+            watchedState.request.status = 'waiting';
           });
-        // elements.form.reset();
-        elements.input.focus();
       });
+      getNewPosts(watchedState);
     }).catch((error) => console.log(error));
 };

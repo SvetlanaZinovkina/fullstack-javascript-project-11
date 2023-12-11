@@ -1,12 +1,13 @@
 import * as yup from 'yup';
+import axios from 'axios';
 
 export const isValid = (feedsLinks, inputValue) => {
   const schema = yup.object({
     url: yup
       .string()
-      .url()
-      .notOneOf(feedsLinks, 'url already yet')
-      .required(),
+      .url('warnings.errUrl')
+      .notOneOf(feedsLinks, 'warnings.errFeed')
+      .required('warnings.errIncludes'),
   });
 
   return schema.validate({ url: inputValue }, { abortEarly: false });

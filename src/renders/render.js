@@ -10,14 +10,16 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
     case 'form.status':
       if (value === 'invalid') {
         input.classList.add('is-invalid');
-        errorText.textContent = i18n.t('warnings.errUrl');
-        elements.errorText.classList.remove('text-success');
-        elements.errorText.classList.add('text-danger');
+        // errorText.textContent = i18n.t('warnings.errUrl');
+        errorText.classList.remove('text-success');
+        errorText.classList.add('text-danger');
       }
-      if (value === 'filling') {
-        input.classList.remove('is-invalid');
-        errorText.textContent = '';
-      }
+      break;
+    case 'form.error':
+      input.classList.add('is-invalid');
+      errorText.textContent = i18n.t(value);
+      errorText.classList.remove('text-success');
+      errorText.classList.add('text-danger');
       break;
     case 'data.feeds':
       if (value) {
@@ -58,6 +60,9 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
         btnForm.disabled = false;
         input.focus({ preventScroll: true });
       }
+      break;
+    case 'request.error':
+      errorText.textContent = i18n.t(value);
       break;
     default:
       break;
