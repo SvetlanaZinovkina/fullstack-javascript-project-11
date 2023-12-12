@@ -25,6 +25,11 @@ export default () => {
         errorText: document.querySelector('.feedback'),
         input: document.getElementById('url-input'),
         form: document.querySelector('form'),
+        btnPost: document.querySelectorAll('.btn-posts'),
+        modal: document.querySelector('.modal'),
+        modalTitle: document.querySelector('.modal-title'),
+        modalBody: document.querySelector('.modal-body'),
+        modalFooter: document.querySelector('.modal-footer'),
 
       };
 
@@ -43,7 +48,7 @@ export default () => {
           feeds: [],
           posts: [],
         },
-        uiState: {
+        uiModal: {
           visitedLinks: [],
           modal: '',
         },
@@ -80,6 +85,8 @@ export default () => {
         const feedsLinks = watchedState.data.feeds.map((feed) => feed.link);
         isValid(feedsLinks, inputValue)
           .then((result) => {
+            // watchedState.request.status = 'processing';
+
             axios
               .get(getProxy(result.url))
               .then((response) => {
@@ -108,6 +115,12 @@ export default () => {
             watchedState.form.status = 'invalid';
             watchedState.request.status = 'waiting';
           });
+      });
+
+      elements.btnPost.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          watchedState.uiModal.modal = 'visible';
+        });
       });
       getNewPosts(watchedState);
     }).catch((error) => console.log(error));

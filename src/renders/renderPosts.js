@@ -24,14 +24,14 @@ export default (state, i18n) => {
 
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
 
-    a.classList.add('fw-bold');
     a.setAttribute('href', link);
+    a.classList.add('fw-bold');
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener noreferrer');
     a.setAttribute('data-id', id);
     a.textContent = title;
 
-    btn.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+    btn.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'btn-posts');
     btn.setAttribute('type', 'button');
     btn.setAttribute('data-id', id);
     btn.setAttribute('data-bs-toggle', 'modal');
