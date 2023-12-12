@@ -24,7 +24,7 @@ export default (state, i18n) => {
     pDescription.textContent = description;
     h3Title.textContent = title;
     li.append(h3Title, pDescription);
-    ul.append(li);
+    ul.prepend(li);
   });
 
   container.append(divCard);

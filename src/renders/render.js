@@ -1,6 +1,7 @@
 import renderFeeds from './renderFeeds.js';
 import renderPosts from './renderPosts.js';
 import renderModal from './renderModal.js';
+import renderVisitedLinks from './renderVisitedLinks.js';
 import { handleProcessSubmit } from '../utilits.js';
 
 export default (state, elements, i18n) => (path, value, previousValue) => {
@@ -66,7 +67,10 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
       errorText.textContent = i18n.t(value);
       break;
     case 'uiModal.modal':
-      renderModal(state, elements, i18n);
+      renderModal(state, elements, i18n, value);
+      break;
+    case 'uiModal.visitedLinks':
+      renderVisitedLinks(elements, state.uiModal.visitedLinks);
       break;
     default:
       break;

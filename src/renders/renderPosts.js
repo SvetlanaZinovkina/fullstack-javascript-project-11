@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export default (state, i18n) => {
   const container = document.querySelector('.posts');
   container.innerHTML = '';
@@ -18,6 +20,8 @@ export default (state, i18n) => {
       title, link, id,
     } = post;
 
+    const idPost = _.uniqueId();
+
     const li = document.createElement('li');
     const a = document.createElement('a');
     const btn = document.createElement('button');
@@ -29,11 +33,13 @@ export default (state, i18n) => {
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener noreferrer');
     a.setAttribute('data-id', id);
+    a.setAttribute('data-post-id', idPost);
     a.textContent = title;
 
     btn.classList.add('btn', 'btn-outline-primary', 'btn-sm', 'btn-posts');
     btn.setAttribute('type', 'button');
     btn.setAttribute('data-id', id);
+    btn.setAttribute('data-post-id', idPost);
     btn.setAttribute('data-bs-toggle', 'modal');
     btn.setAttribute('data-bs-target', '#modal');
     btn.textContent = i18n.t('btnView');
@@ -47,3 +53,5 @@ export default (state, i18n) => {
   divCardBody.append(ul);
   ul.append(fragment);
 };
+
+// TODO: вывод постов не по порядку

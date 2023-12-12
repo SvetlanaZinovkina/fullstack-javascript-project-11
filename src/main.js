@@ -25,7 +25,7 @@ export default () => {
         errorText: document.querySelector('.feedback'),
         input: document.getElementById('url-input'),
         form: document.querySelector('form'),
-        btnPost: document.querySelectorAll('.btn-posts'),
+        posts: document.querySelector('.posts'),
         modal: document.querySelector('.modal'),
         modalTitle: document.querySelector('.modal-title'),
         modalBody: document.querySelector('.modal-body'),
@@ -117,11 +117,13 @@ export default () => {
           });
       });
 
-      elements.btnPost.forEach((btn) => {
-        btn.addEventListener('click', () => {
-          watchedState.uiModal.modal = 'visible';
-        });
+      elements.posts.addEventListener('click', (e) => {
+        const modalBtn = e.target.closest('.btn-sm');
+        const link = e.target.closest('a');
+        if (modalBtn) watchedState.uiModal.modal = modalBtn.getAttribute('data-post-id');
+        if (link) watchedState.uiModal.visitedLinks.push(link.getAttribute('data-post-id'));
       });
+
       getNewPosts(watchedState);
     }).catch((error) => console.log(error));
 };
