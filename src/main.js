@@ -100,7 +100,7 @@ export default () => {
                 watchedState.request.status = 'finished';
               })
               .catch((error) => {
-                if (error.response) {
+                if (axios.isAxiosError(error)) {
                   watchedState.form.status = 'filling';
                   watchedState.request.error = 'warnings.errNetwork';
                   watchedState.request.status = 'failed';
