@@ -18,6 +18,7 @@ export default () => {
   })
     .then(() => {
       const elements = {
+        body: document.querySelector('body'),
         h1: document.querySelector('.display-3'),
         article: document.querySelector('.lead'),
         btnForm: document.querySelector('.btn-lg'),
@@ -58,6 +59,7 @@ export default () => {
 
       const watchedState = onChange(state, render(state, elements, i18nInst));
 
+      // eslint-disable-next-line no-shadow
       const getNewPosts = (state) => {
         const promises = state.data.feeds
           .map(({ link, id }) => axios

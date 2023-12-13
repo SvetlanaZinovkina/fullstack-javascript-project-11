@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import axios from 'axios';
 
 export const isValid = (feedsLinks, inputValue) => {
   const schema = yup.object({

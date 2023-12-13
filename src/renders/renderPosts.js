@@ -45,7 +45,8 @@ export default (state, i18n) => {
     btn.textContent = i18n.t('btnView');
 
     li.append(a, btn);
-    fragment.append(li);
+    fragment.insertBefore(li, fragment.firstChild);
+    // fragment.append(li);
   });
   container.append(divCard);
   divCard.append(divCardBody);
@@ -53,5 +54,3 @@ export default (state, i18n) => {
   divCardBody.append(ul);
   ul.append(fragment);
 };
-
-// TODO: вывод постов не по порядку
