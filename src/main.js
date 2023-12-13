@@ -85,10 +85,9 @@ export default () => {
         const form = new FormData(e.target);
         const inputValue = form.get('url').trim();
         const feedsLinks = watchedState.data.feeds.map((feed) => feed.link);
+        watchedState.request.status = 'processing';
         isValid(feedsLinks, inputValue)
           .then((result) => {
-            // watchedState.request.status = 'processing';
-
             axios
               .get(getProxy(result.url))
               .then((response) => {

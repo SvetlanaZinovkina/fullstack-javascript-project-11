@@ -38,7 +38,6 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
       if (value === 'processing') {
         errorText.textContent = '';
         input.classList.remove('is-invalid');
-        input.disabled = true;
         btnForm.disabled = true;
       }
       if (value === 'waiting') {
@@ -60,7 +59,7 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
         errorText.textContent = i18n.t('successfully');
         input.disabled = false;
         btnForm.disabled = false;
-        input.focus({ preventScroll: true });
+        input.focus();
       }
       break;
     case 'request.error':
