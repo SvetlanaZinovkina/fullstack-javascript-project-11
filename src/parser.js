@@ -1,13 +1,12 @@
 const getPosts = (feedData) => {
   const items = feedData.querySelectorAll('item');
-  const posts = [...items].map((item) => {
+  return [...items].map((item) => {
     const title = item.querySelector('title').textContent;
     const description = item.querySelector('description').textContent;
     const link = item.querySelector('link').textContent;
 
     return { title, description, link };
   });
-  return posts;
 };
 
 const getFeed = (feedData) => {
