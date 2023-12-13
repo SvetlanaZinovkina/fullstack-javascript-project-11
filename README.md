@@ -3,4 +3,24 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/2f602a3477bbadbe2f82/maintainability)](https://codeclimate.com/github/SvetlanaZinovkina/fullstack-javascript-project-11/maintainability)
 
-https://fullstack-javascript-project-11-two.vercel.app/
+# RSS Reader
+
+A straightforward RSS Reader built with JavaScript.
+
+## Installation
+
+To install clone the project in the desired folder
+```sh
+git clone git@github.com:SvetlanaZinovkina/fullstack-javascript-project-11.git
+```
+
+Install
+```sh
+make install
+```
+
+## Deployment
+
+The project is deployed on [Vercel](https://vercel.com/) and can be accessed at: [Fullstack JavaScript Project](fullstack-javascript-project-11-psi.vercel.app)
+
+
