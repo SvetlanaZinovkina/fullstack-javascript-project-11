@@ -4,9 +4,7 @@ const closeModal = (modal, body, backdrop) => {
   modal.removeAttribute('role');
   modal.setAttribute('aria-hidden', 'true');
   body.classList.remove('modal-open');
-  if (backdrop) {
-    backdrop.remove();
-  }
+  backdrop.remove();
 };
 
 export default (state, elements, i18n, idPost) => {
@@ -18,7 +16,10 @@ export default (state, elements, i18n, idPost) => {
   const btnRead = modalFooter.querySelector('a');
   const btnClose = modalFooter.querySelector('button');
   const crossClose = document.querySelector('.btn-close');
+  const backdrop = document.createElement('div');
+
   const [{ description, link, title }] = posts.filter((post) => post.link === aLink.href);
+  console.log(state.uiModal);
   modal.classList.add('show');
   modal.setAttribute('style', 'display: block');
   modal.setAttribute('aria-modal', 'true');
@@ -29,10 +30,11 @@ export default (state, elements, i18n, idPost) => {
   aLink.classList.add('fw-normal');
   aLink.classList.add('link-secondary');
   body.classList.add('modal-open');
+
   body.setAttribute('style', 'overflow: hidden; padding-right: 0px;');
-  const backdrop = document.createElement('div');
   backdrop.classList.add('modal-backdrop', 'fade', 'show');
   body.appendChild(backdrop);
+
   modalTitle.textContent = title;
   modalBody.textContent = description;
   btnRead.href = link;
