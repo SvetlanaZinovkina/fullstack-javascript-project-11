@@ -119,10 +119,9 @@ export default () => {
       });
 
       elements.posts.addEventListener('click', (e) => {
-        const modalBtn = e.target.closest('.btn-sm');
-        const link = e.target.closest('a');
-        if (modalBtn) watchedState.uiModal.modal = modalBtn.getAttribute('data-post-id');
-        if (link) watchedState.uiModal.visitedLinks.push(link.getAttribute('data-post-id'));
+        const activeElem = e.target;
+        if (activeElem.tagName === 'BUTTON') watchedState.uiModal.modal = activeElem.getAttribute('data-post-id');
+        if (activeElem.tagName === 'A') watchedState.uiModal.visitedLinks.push(activeElem.getAttribute('data-post-id'));
       });
 
       getNewPosts(watchedState);
