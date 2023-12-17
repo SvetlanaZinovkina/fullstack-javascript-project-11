@@ -2,6 +2,7 @@ export default {
   translation: {
     headerText: 'RSS агрегатор',
     articleText: 'Начните читать RSS сегодня! Это легко, это красиво.',
+    labelText: 'Ссылка RSS',
     btn: 'Добавить',
     example: 'Пример: https://ru.hexlet.io/lessons.rss',
     posts: 'Посты',

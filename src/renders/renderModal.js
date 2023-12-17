@@ -14,12 +14,11 @@ export default (state, elements, i18n, idPost) => {
   const { posts } = state.data;
   const aLink = document.querySelector(`[data-post-id="${idPost}"]`);
   const btnRead = modalFooter.querySelector('a');
-  const btnClose = modalFooter.querySelector('button');
+  const btnClose = modalFooter.querySelector('.btn-secondary');
   const crossClose = document.querySelector('.btn-close');
   const backdrop = document.createElement('div');
 
   const [{ description, link, title }] = posts.filter((post) => post.link === aLink.href);
-  console.log(state.uiModal);
   modal.classList.add('show');
   modal.setAttribute('style', 'display: block');
   modal.setAttribute('aria-modal', 'true');
@@ -38,6 +37,8 @@ export default (state, elements, i18n, idPost) => {
   modalTitle.textContent = title;
   modalBody.textContent = description;
   btnRead.href = link;
+  btnRead.textContent = i18n.t('modal.btnRead');
+  btnClose.textContent = i18n.t('modal.btnClose');
 
   btnClose.addEventListener('click', () => closeModal(modal, body, backdrop));
   crossClose.addEventListener('click', () => closeModal(modal, body, backdrop));

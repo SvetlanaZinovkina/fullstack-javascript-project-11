@@ -2,11 +2,10 @@ import renderFeeds from './renderFeeds.js';
 import renderPosts from './renderPosts.js';
 import renderModal from './renderModal.js';
 import renderVisitedLinks from './renderVisitedLinks.js';
-import { handleProcessSubmit } from '../utilits.js';
 
 export default (state, elements, i18n) => (path, value, previousValue) => {
   const {
-    input, btnForm, errorText,
+    input, btnForm, errorText, form,
   } = elements;
   switch (path) {
     case 'form.status':
@@ -26,7 +25,9 @@ export default (state, elements, i18n) => (path, value, previousValue) => {
     case 'data.feeds':
       if (value) {
         renderFeeds(state, i18n.t('feeds'));
-        handleProcessSubmit(elements);
+        form.reset();
+        input.focus();
+        btnForm.disabled = false;
       }
       break;
     case 'data.posts':

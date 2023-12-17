@@ -21,6 +21,7 @@ export default () => {
         body: document.querySelector('body'),
         h1: document.querySelector('.display-3'),
         article: document.querySelector('.lead'),
+        label: document.querySelector('label'),
         btnForm: document.querySelector('.btn-lg'),
         exampleText: document.querySelector('.mt-2'),
         errorText: document.querySelector('.feedback'),
@@ -50,7 +51,7 @@ export default () => {
           posts: [],
         },
         uiModal: {
-          visitedLinks: [],
+          visitedLinks: new Set(),
           modal: '',
         },
       };
@@ -71,7 +72,6 @@ export default () => {
               if (newPosts.length > 0) {
                 posts.forEach((post) => watchedState.data.posts.push({ ...post, id }));
               }
-              return Promise.resolve();
             }));
 
         Promise.allSettled(promises)
@@ -121,7 +121,7 @@ export default () => {
       elements.posts.addEventListener('click', (e) => {
         const activeElem = e.target;
         if (activeElem.tagName === 'BUTTON') watchedState.uiModal.modal = activeElem.getAttribute('data-post-id');
-        if (activeElem.tagName === 'A') watchedState.uiModal.visitedLinks.push(activeElem.getAttribute('data-post-id'));
+        if (activeElem.tagName === 'A') watchedState.uiModal.visitedLinks.add(activeElem.getAttribute('data-post-id'));
       });
 
       getNewPosts(watchedState);

@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const isValid = (feedsLinks, inputValue) => {
+export const isValid = (feedsLinks, currentUrl) => {
   const schema = yup.object({
     url: yup
       .string()
@@ -9,7 +9,7 @@ export const isValid = (feedsLinks, inputValue) => {
       .required('warnings.errIncludes'),
   });
 
-  return schema.validate({ url: inputValue }, { abortEarly: false });
+  return schema.validate({ url: currentUrl }, { abortEarly: false });
 };
 
 export const getProxy = (url) => {
@@ -17,11 +17,4 @@ export const getProxy = (url) => {
   urlProxy.searchParams.set('disableCache', 'true');
   urlProxy.searchParams.set('url', url);
   return urlProxy.toString();
-};
-
-export const handleProcessSubmit = (elements) => {
-  const { form, input, btnForm } = elements;
-  form.reset();
-  input.focus();
-  btnForm.disabled = false;
 };
