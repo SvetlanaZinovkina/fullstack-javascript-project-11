@@ -21,6 +21,6 @@ make install
 
 ## Deployment
 
-The project is deployed on [Vercel](https://vercel.com/) and can be accessed at: [RSS-reader](https://fullstack-javascript-project-11-ginhzj6ym.vercel.app)
+The project is deployed on [Vercel](https://vercel.com/) and can be accessed at: [RSS-reader](https://fullstack-javascript-project-11-svetlanas-projects-b44eb3d5.vercel.app/)
 
 
